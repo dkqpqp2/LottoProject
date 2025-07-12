@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.practice.lotto.mapper.LottoMapper">
+	<select id="findNumberFrequencies" resultType="map">
+		SELECT number, COUNT(*) as frequency
+	        FROM (
+	            SELECT lotto_first_num AS number
+	            FROM lotto
+	            WHERE lotto_draw_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+	            UNION ALL
+	            SELECT lotto_second_num
+	            FROM lotto
+	            WHERE lotto_draw_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+	            UNION ALL
+	            SELECT lotto_third_num
+	            FROM lotto
+	            WHERE lotto_draw_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+	            UNION ALL
+	            SELECT lotto_fourth_num
+	            FROM lotto
+	            WHERE lotto_draw_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+	            UNION ALL
+	            SELECT lotto_fifth_num
+	            FROM lotto
+	            WHERE lotto_draw_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+	            UNION ALL
+	            SELECT lotto_sixth_num
+	            FROM lotto
+	            WHERE lotto_draw_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+	            UNION ALL
+	            SELECT lotto_bonus_num
+	            FROM lotto
+	            WHERE lotto_draw_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+	        ) AS numbers
+	        GROUP BY number
+	        ORDER BY frequency DESC, number ASC
+	</select>
+</mapper>

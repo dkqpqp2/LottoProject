@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.practice.lotto.mapper.UserMapper">
+ 	<resultMap id="LottoUserResultMap" type="com.practice.lotto.model.LottoUser">
+        <id property="seqId" column="seq_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userPw" column="user_pw"/>
+        <result property="email" column="email"/>
+        <result property="emailVerified" column="email_verified"/>
+        <result property="verificationCode" column="verification_code"/>
+        <result property="codeExpiresAt" column="code_expires_at"/>
+        <result property="gender" column="gender"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+        <result property="userGrade" column="user_grade"/>
+        <result property="experiencePoints" column="experience_points"/>
+    </resultMap>
+	<select id="findByUserId" resultType="com.practice.lotto.model.LottoUser">
+   		SELECT * FROM LottoUser WHRER user_id = #{userId}
+	</select>
+	<select id="findByEmail"  resultType="com.practice.lotto.model.LottoUser">
+		SELECT * FROM LottoUser WHERE email = #{email}
+	</select>
+	<select id="existsByUserId" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM LottoUser WHERE user_id = #{userId}
+    </select>
+
+    <select id="existsByEmail" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM LottoUser WHERE email = #{email}
+    </select>
+	<insert id="insertUser" parameterType="com.practice.lotto.model.LottoUser">
+        INSERT INTO LottoUser (
+            user_id, user_pw, email, email_verified,
+            verification_code, code_expires_at,
+            create_at, update_at, user_grade, experience_points
+        )
+        VALUES (
+            #{userId}, #{userPw}, #{email}, #{emailVerified},
+            #{verificationCode}, #{codeExpiresAt},
+            NOW(), NOW(), #{userGrade}, #{experiencePoints}
+        )
+    </insert>
+    <update id="updateUser" parameterType="com.practice.lotto.model.LottoUser">
+        UPDATE LottoUser
+        SET
+            user_pw = #{userPw},
+            email = #{email},
+            email_verified = #{emailVerified},
+            verification_code = #{verificationCode},
+            code_expires_at = #{codeExpiresAt},
+            gender = #{gender},
+            update_at = NOW(),
+            user_grade = #{userGrade},
+            experience_points = #{experiencePoints}
+        WHERE seq_id = #{seqId}
+    </update>
+	
+</mapper>
